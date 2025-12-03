@@ -23,15 +23,3 @@ services:
         sync: false
       - key: FRONTEND_URL
         sync: false
-
-  # Frontend Static Site
-  - type: web
-    name: video-analyzer-frontend
-    runtime: static
-    branch: main
-    rootDir: ./frontend
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
-    envVars:
-      - key: VITE_API_URL
-        sync: false
