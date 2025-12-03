@@ -15,8 +15,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // CORS middleware
+const allowedOrigins = [
+  'http://localhost:5173', 
+  'http://localhost:5174', 
+  'http://localhost:3000',
+  process.env.FRONTEND_URL // Add your Render frontend URL here
+].filter(Boolean);
+
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000'],
+  origin: allowedOrigins,
   credentials: true
 }));
 
@@ -39,6 +46,11 @@ app.get('/api/health', (req, res) => {
     success: true,
     message: 'Server is running'
   });
+});
+
+// Render health check endpoint
+app.get('/healthz', (req, res) => {
+  res.status(200).send('OK');
 });
 
 // Error handler middleware (must be last)
