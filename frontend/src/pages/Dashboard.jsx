@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../config/api';
 import { useAuth } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
 import './Dashboard.css';
@@ -93,7 +93,7 @@ const Dashboard = () => {
 
   const fetchVideos = async () => {
     try {
-      const res = await axios.get('/api/videos');
+      const res = await api.get('/api/videos');
       setVideos(res.data.videos || []);
     } catch (err) {
       console.error('Failed to fetch videos:', err);
@@ -119,7 +119,7 @@ const Dashboard = () => {
     formData.append('autoProcess', 'true');
 
     try {
-      const res = await axios.post('/api/videos/upload', formData, {
+      const res = await api.post('/api/videos/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },
@@ -163,7 +163,7 @@ const Dashboard = () => {
     if (!confirm('Are you sure you want to delete this video?')) return;
 
     try {
-      await axios.delete(`/api/videos/${videoId}`);
+      await api.delete(`/api/videos/${videoId}`);
       setSuccess('Video deleted successfully');
       setTimeout(() => setSuccess(''), 3000);
       fetchVideos();
@@ -186,7 +186,7 @@ const Dashboard = () => {
 
   const reprocessVideo = async (videoId) => {
     try {
-      await axios.post(`/api/videos/${videoId}/process`);
+      await api.post(`/api/videos/${videoId}/process`);
       setSuccess('Reprocessing started...');
       setTimeout(() => setSuccess(''), 3000);
     } catch (err) {

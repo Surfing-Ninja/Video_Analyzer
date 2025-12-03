@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import api, { API_URL } from '../config/api';
 import './VideoPlayer.css';
 
 const VideoPlayer = () => {
@@ -21,7 +21,7 @@ const VideoPlayer = () => {
   const fetchVideoMetadata = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`/api/videos/${id}`);
+      const res = await api.get(`/api/videos/${id}`);
       setVideo(res.data.video);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to load video');
@@ -31,7 +31,7 @@ const VideoPlayer = () => {
   };
 
   const getStreamUrl = () => {
-    return `http://localhost:5001/api/videos/stream/${id}?token=${token}`;
+    return `${API_URL}/api/videos/stream/${id}?token=${token}`;
   };
 
   const formatFileSize = (bytes) => {
