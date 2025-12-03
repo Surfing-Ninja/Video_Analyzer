@@ -28,7 +28,6 @@ services:
   - type: web
     name: video-analyzer-frontend
     runtime: static
-    region: oregon
     plan: free
     branch: main
     rootDir: ./frontend
